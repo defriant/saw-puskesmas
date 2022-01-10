@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 03 Jan 2022 pada 10.47
+-- Waktu pembuatan: 10 Jan 2022 pada 13.51
 -- Versi server: 10.4.17-MariaDB
 -- Versi PHP: 8.0.0
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `saw_karyawan`
+-- Database: `saw_puskesmas`
 --
 
 -- --------------------------------------------------------
@@ -36,16 +36,6 @@ CREATE TABLE `karyawan` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `karyawan`
---
-
-INSERT INTO `karyawan` (`id`, `nama`, `jenis_kelamin`, `tgl_lahir`, `alamat`, `created_at`, `updated_at`) VALUES
-('K3629', 'Apip', 'Laki-laki', '2021-12-01', 'Bekasi', '2021-12-31 03:26:57', '2022-01-01 20:04:10'),
-('K7543', 'Aji', 'Laki-laki', '2022-01-01', 'Bekasi', '2022-01-02 04:32:56', '2022-01-02 04:32:56'),
-('K9214', 'Repo', 'Laki-laki', '2022-01-01', 'Bekasi', '2022-01-01 19:54:17', '2022-01-01 20:04:15'),
-('K9517', 'Napis', 'Laki-laki', '2022-01-02', 'Bekasi', '2022-01-01 12:40:46', '2022-01-01 20:04:20');
 
 -- --------------------------------------------------------
 
