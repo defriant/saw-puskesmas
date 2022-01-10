@@ -1,0 +1,141 @@
+.login-logo {
+    width: 140px;
+}
+
+.btn-login,
+.btn-login:hover,
+.btn-login:focus {
+    background: var(--mainColor);
+    border: var(--mainColor);
+}
+
+.brand {
+    width: 147px;
+}
+
+.login-failed-message {
+    color: rgb(255, 0, 0);
+    font-size: 1.3rem;
+    float: left;
+    margin: .5rem 0 1rem 0;
+}
+
+.change-periode {
+    padding-left: .5rem !important;
+    padding-right: .5rem !important;
+    border-radius: 3px;
+}
+
+.change-periode.active {
+    background: var(--mainColor) !important;
+    color: #fff;
+}
+
+.loading {
+    background: rgb(219, 219, 219);
+    color: rgb(219, 219, 219);
+    padding-right: 10px;
+}
+
+.loader {
+    text-align: center;
+    padding: 3.5rem 0;
+}
+
+.loader4 {
+    width: 45px;
+    height: 45px;
+    display: inline-block;
+    padding: 0px;
+    border-radius: 100%;
+    border: 5px solid;
+    border-top-color: var(--mainColor);
+    border-bottom-color: rgb(225, 225, 225);
+    border-left-color: var(--mainColor);
+    border-right-color: rgb(225, 225, 225);
+    -webkit-animation: loader4 1s ease-in-out infinite;
+    animation: loader4 1s ease-in-out infinite;
+}
+
+@keyframes loader4 {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes loader4 {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+.btn-table-action {
+    border: none;
+    border-radius: 3px;
+    padding: .3rem .6rem;
+    color: #fff;
+    transition: .2s;
+}
+
+.btn-table-action.acc {
+    background: #40b927;
+}
+
+.btn-table-action.edit {
+    background: #ffaa00;
+}
+
+.btn-table-action.delete {
+    background: #c91d1d;
+}
+
+.btn-table-action[disabled="disabled"] {
+    cursor: not-allowed;
+    opacity: .5;
+}
+
+.btn-table-action.btn-hide {
+    visibility: hidden;
+    opacity: 0;
+}
+
+#btn-add-kriteria {
+    transition: .2s !important;
+}
+
+#btn-add-kriteria.btn-hide {
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+.date-picker {
+    background: #fff !important;
+}
+
+#periode-penilaian {
+    background: #fff !important;
+}
+
+#penilaian-karyawan-loader {
+    display: none;
+}
+
+#table-penilaian {
+    display: none;
+}
+
+#table-normalisasi-penilaian {
+    display: none;
+}
+
+#table-hasil-penilaian {
+    display: none;
+}
