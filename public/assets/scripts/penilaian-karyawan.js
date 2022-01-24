@@ -57,7 +57,18 @@ function getPenilaian(params) {
                                                     </tr>`)
 
                     $.each(vRow.nilai, function(i, nilai){
-                        $(`#row-penilaian-karyawan-${iRow}`).append(`<td>${nilai.nilai}</td>`)
+                        let kNilai = ``
+                        if (nilai.nilai >= 85) {
+                            kNilai = `<span class="label label-success">Sangat Baik</span>`
+                        }else if (nilai.nilai >= 70 && nilai.nilai < 85) {
+                            kNilai = `<span class="label label-info">Baik</span>`
+                        }else if (nilai.nilai >= 55 && nilai.nilai < 70) {
+                            kNilai = `<span class="label label-warning">Kurang</span>`
+                        }else if (nilai.nilai < 55) {
+                            kNilai = `<span class="label label-danger">Sangat Kurang</span>`
+                        }
+
+                        $(`#row-penilaian-karyawan-${iRow}`).append(`<td>${nilai.nilai} ${kNilai}</td>`)
                     })
 
                     $(`#row-penilaian-karyawan-${iRow}`).append(`<td><button class="btn-table-action edit update-penilaian-karyawan" data-periode="${result.periode}" data-idkaryawan="${vRow.id_karyawan}" data-namakaryawan="${vRow.nama}"><i class="fas fa-pen"></i></button></td>`)
