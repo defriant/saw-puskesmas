@@ -58,13 +58,13 @@ function getPenilaian(params) {
 
                     $.each(vRow.nilai, function(i, nilai){
                         let kNilai = ``
-                        if (nilai.nilai >= 85) {
+                        if (nilai.nilai >= 8) {
                             kNilai = `<span class="label label-success">Sangat Baik</span>`
-                        }else if (nilai.nilai >= 70 && nilai.nilai < 85) {
+                        }else if (nilai.nilai >= 6 && nilai.nilai < 8) {
                             kNilai = `<span class="label label-info">Baik</span>`
-                        }else if (nilai.nilai >= 55 && nilai.nilai < 70) {
+                        }else if (nilai.nilai >= 4 && nilai.nilai < 6) {
                             kNilai = `<span class="label label-warning">Kurang</span>`
-                        }else if (nilai.nilai < 55) {
+                        }else if (nilai.nilai < 4) {
                             kNilai = `<span class="label label-danger">Sangat Kurang</span>`
                         }
 
