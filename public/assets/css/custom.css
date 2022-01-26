@@ -139,3 +139,12 @@
 #table-hasil-penilaian {
     display: none;
 }
+
+#user-picture {
+    width: 100px !important;
+    height: 100px !important;
+    background-size: cover;
+    background-position: center;
+    margin-left: auto;
+    margin-right: auto;
+}

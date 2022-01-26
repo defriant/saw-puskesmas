@@ -19,6 +19,11 @@ class Karyawan extends Model
     ];
     public $incrementing = false;
 
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id_karyawan', 'id');
+    }
+
     public function penilaian()
     {
         return $this->hasMany(Penilaian::class, 'id_karyawan', 'id');

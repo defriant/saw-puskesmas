@@ -48,9 +48,20 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="{{ asset('assets/img/admin.png') }}" class="img-circle" alt="Avatar"> <span>{{ Auth::user()->name }}</span> <i class="icon-submenu lnr lnr-chevron-down"></i>
+                                @if (Auth::user()->role == 'admin')
+                                    <img src="{{ asset('assets/img/admin.png') }}" class="img-circle" alt="Avatar"> <span>{{ Auth::user()->name }}</span> <i class="icon-submenu lnr lnr-chevron-down"></i>
+                                @else
+                                    @if (Auth::user()->karyawan->jenis_kelamin == "Laki-laki")
+                                        <img src="{{ asset('assets/img/admin.png') }}" class="img-circle" alt="Avatar"> <span>{{ Auth::user()->name }}</span> <i class="icon-submenu lnr lnr-chevron-down"></i>
+                                    @else
+                                        <img src="{{ asset('assets/img/user-female.png') }}" class="img-circle" alt="Avatar"> <span>{{ Auth::user()->name }}</span> <i class="icon-submenu lnr lnr-chevron-down"></i>
+                                    @endif
+                                @endif
                             </a>
                             <ul class="dropdown-menu">
+                                @if (Auth::user()->role == "karyawan")
+                                    <li><a href="#" data-toggle="modal" data-target="#modalChangePassword"><i class="fal fa-cog"></i> <span>Ganti Password</span></a></li>
+                                @endif
                                 <li><a href="/logout"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
                             </ul>
                         </li>
@@ -62,17 +73,28 @@
         <div id="sidebar-nav" class="sidebar">
             <div class="sidebar-scroll">
                 <nav>
-                    <ul class="nav">
-                        <li>
-                            <a href="/dashboard" class="{{ Request::is('dashboard') ? 'active' : '' }}"><i class="lnr lnr-home"></i> <span>Dashboard</span></a>
-                        </li>
-                        <li>
-                            <a href="/data-karyawan" class="{{ Request::is('data-karyawan') ? 'active' : '' }}"><i class="fal fa-tasks"></i> <span>Data Karyawan</span></a>
-                        </li>
-                        <li>
-                            <a href="/penilaian-kinerja" class="{{ Request::is('penilaian-kinerja') ? 'active' : '' }}"><i class="fal fa-chart-line"></i> <span>Penilaian Kinerja</span></a>
-                        </li>
-                    </ul>
+                    @if (Auth::user()->role == "admin")
+                        <ul class="nav">
+                            <li>
+                                <a href="/dashboard" class="{{ Request::is('dashboard') ? 'active' : '' }}"><i class="lnr lnr-home"></i> <span>Dashboard</span></a>
+                            </li>
+                            <li>
+                                <a href="/data-karyawan" class="{{ Request::is('data-karyawan') ? 'active' : '' }}"><i class="fal fa-tasks"></i> <span>Data Karyawan</span></a>
+                            </li>
+                            <li>
+                                <a href="/penilaian-kinerja" class="{{ Request::is('penilaian-kinerja') ? 'active' : '' }}"><i class="fal fa-chart-line"></i> <span>Penilaian Kinerja</span></a>
+                            </li>
+                        </ul>
+                    @elseif(Auth::user()->role == "karyawan")
+                        <ul class="nav">
+                            <li>
+                                <a href="/karyawan/dashboard" class="{{ Request::is('karyawan/dashboard') ? 'active' : '' }}"><i class="lnr lnr-home"></i> <span>Dashboard</span></a>
+                            </li>
+                            <li>
+                                <a href="/karyawan/peringkat" class="{{ Request::is('karyawan/peringkat') ? 'active' : '' }}"><i class="fal fa-chart-bar"></i> <span>Peringkat</span></a>
+                            </li>
+                        </ul>
+                    @endif
                 </nav>
             </div>
         </div>
@@ -84,6 +106,34 @@
                 </div>
             </div>
         </div>
+
+        @if (Auth::user()->role == "karyawan")
+            <div class="modal fade" id="modalChangePassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Ganti Password</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Password lama</p>
+                            <input type="password" id="old-pass" class="form-control">
+                            <br>
+                            <p>Password baru</p>
+                            <input type="password" id="new-pass" class="form-control">
+                            <br>
+                            <p>Konfirmasi password</p>
+                            <input type="password" id="confirm-pass" class="form-control">
+                            <br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn-change-password">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
         
         <div class="clearfix"></div>
         <footer>
@@ -109,6 +159,10 @@
         <script src="{{ asset('assets/scripts/kriteria.js') }}"></script>
         <script src="{{ asset('assets/scripts/penilaian-karyawan.js') }}"></script>
         <script src="{{ asset('assets/scripts/saw.js') }}"></script>
+    @elseif (Request::is('karyawan/dashboard'))
+        <script src="{{ asset('assets/scripts/karyawan-dashboard.js') }}"></script>
+    @elseif (Request::is('karyawan/peringkat'))
+        <script src="{{ asset('assets/scripts/karyawan-peringkat.js') }}"></script>
     @endif
     @yield('scripts')
 </body>

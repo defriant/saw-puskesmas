@@ -1628,6 +1628,7 @@ ul.activity-list>li .timestamp {
     float: right;
     width: 65%;
     padding: 20px 25px;
+    min-height: 350px;
 }
 
 .profile-right .heading {
@@ -1667,9 +1668,10 @@ ul.activity-list>li .timestamp {
 .profile-header .profile-main {
     position: relative;
     padding: 20px;
-    background-image: url("../../assets/img/profile-bg.png");
+    /* background-image: url("../../assets/img/profile-bg.png");
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: cover; */
+    background: var(--sidebarColor);
 }
 
 .profile-header .name {

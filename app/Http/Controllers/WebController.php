@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Karyawan;
 use App\Models\Kriteria;
 use App\Models\Penilaian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class WebController extends Controller
@@ -57,6 +59,35 @@ class WebController extends Controller
         return redirect('/');
     }
 
+    public function change_password(Request $request)
+    {
+        $cekPass = Hash::check($request->oldPass, Auth::user()->password);
+
+        if ($cekPass === true) {
+            User::where('id', Auth::user()->id)->update([
+                "password" => bcrypt($request->newPass)
+            ]);
+            return response()->json([
+                "response" => "success",
+                "message" => "Password anda berhasil dirubah"
+            ]);
+        } else {
+            return response()->json([
+                "response" => "failed",
+                "message" => "Password lama anda salah !"
+            ]);
+        }
+    }
+
+    public function check_role()
+    {
+        if (Auth::user()->role == "admin") {
+            return redirect('/dashboard');
+        } elseif (Auth::user()->role == "karyawan") {
+            return redirect('/karyawan/dashboard');
+        }
+    }
+
     public function dashboard()
     {
         $karyawan = Karyawan::all();
@@ -71,8 +102,21 @@ class WebController extends Controller
     public function get_data_karyawan()
     {
         $karyawan = Karyawan::all();
+        $data = [];
+
+        foreach ($karyawan as $k) {
+            $data[] = [
+                "id" => $k->id,
+                "nama" => $k->nama,
+                "username" => $k->user->username,
+                "jenis_kelamin" => $k->jenis_kelamin,
+                "tgl_lahir" => date('d F Y', strtotime($k->tgl_lahir)),
+                "alamat" => $k->alamat
+            ];
+        }
+
         $response = [
-            "data" => $karyawan,
+            "data" => $data,
             "response" => "success",
         ];
         return response()->json($response);
@@ -80,51 +124,68 @@ class WebController extends Controller
 
     public function input_data_karyawan(Request $request)
     {
-        $idKaryawan = 'K' . $this->random('num', 4);
-        while (true) {
-            $cek = Karyawan::where('id', $idKaryawan)->first();
-            if ($cek) {
-                $idKaryawan = 'K' . $this->random('num', 4);
-            } else {
-                break;
+        $cek = User::where('username', $request->username)->first();
+        if ($cek) {
+            $response = [
+                "response" => "failed",
+                "message" => "Akses Username sudah digunakan !"
+            ];
+            return response()->json($response);
+        } else {
+            $idKaryawan = 'K' . $this->random('num', 4);
+            while (true) {
+                $cek = Karyawan::where('id', $idKaryawan)->first();
+                if ($cek) {
+                    $idKaryawan = 'K' . $this->random('num', 4);
+                } else {
+                    break;
+                }
             }
-        }
 
-        Karyawan::create([
-            'id' => $idKaryawan,
-            'nama' => $request->nama,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'tgl_lahir' => $request->tgl_lahir,
-            'alamat' => $request->alamat
-        ]);
+            Karyawan::create([
+                'id' => $idKaryawan,
+                'nama' => $request->nama,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'tgl_lahir' => $request->tgl_lahir,
+                'alamat' => $request->alamat
+            ]);
 
-        $penilaian = Penilaian::all();
-        $kriteria = Kriteria::all();
+            User::create([
+                'id_karyawan' => $idKaryawan,
+                'name' => $request->nama,
+                'username' => $request->username,
+                'password' => bcrypt('12345'),
+                'role' => 'karyawan'
+            ]);
 
-        $periodePenilaian = [];
-        foreach ($penilaian as $p) {
-            $cek = array_search($p->periode, $periodePenilaian);
-            if ($cek === false) {
-                $periodePenilaian[] = $p->periode;
+            $penilaian = Penilaian::all();
+            $kriteria = Kriteria::all();
+
+            $periodePenilaian = [];
+            foreach ($penilaian as $p) {
+                $cek = array_search($p->periode, $periodePenilaian);
+                if ($cek === false) {
+                    $periodePenilaian[] = $p->periode;
+                }
             }
-        }
 
-        foreach ($periodePenilaian as $periode) {
-            foreach ($kriteria as $k) {
-                Penilaian::create([
-                    'periode' => $periode,
-                    'id_karyawan' => $idKaryawan,
-                    'id_kriteria' => $k->id,
-                    'nilai' => 0
-                ]);
+            foreach ($periodePenilaian as $periode) {
+                foreach ($kriteria as $k) {
+                    Penilaian::create([
+                        'periode' => $periode,
+                        'id_karyawan' => $idKaryawan,
+                        'id_kriteria' => $k->id,
+                        'nilai' => 0
+                    ]);
+                }
             }
-        }
 
-        $response = [
-            "response" => "success",
-            "message" => "Data karyawan berhasil ditambahkan"
-        ];
-        return response()->json($response);
+            $response = [
+                "response" => "success",
+                "message" => "Data karyawan berhasil ditambahkan"
+            ];
+            return response()->json($response);
+        }
     }
 
     public function update_data_karyawan(Request $request)
@@ -148,6 +209,7 @@ class WebController extends Controller
     {
         Karyawan::where('id', $request->id)->delete();
         Penilaian::where('id_karyawan', $request->id)->delete();
+        User::where('id_karyawan', $request->id)->delete();
 
         $response = [
             "response" => "success",
@@ -399,5 +461,20 @@ class WebController extends Controller
         });
 
         return response()->json($result);
+    }
+
+    // ===== KARYAWAN =====
+    public function karyawan_dashboard()
+    {
+        $penilaian = Penilaian::where('periode', date('Y-m'))->where('id_karyawan', Auth::user()->karyawan->id)->get();
+        $data = [];
+        foreach ($penilaian as $p) {
+            $data[] = [
+                "kriteria" => $p->kriteria->nama,
+                "nilai" => $p->nilai
+            ];
+        }
+
+        return response()->json($data);
     }
 }

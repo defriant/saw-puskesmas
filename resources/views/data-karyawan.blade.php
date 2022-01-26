@@ -16,6 +16,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Nama</th>
+                            <th>Username</th>
                             <th>Jenis Kelamin</th>
                             <th>Tgl Lahir</th>
                             <th>Alamat</th>
@@ -28,12 +29,14 @@
                             <td><span class="loading">Lorem, ipsum dolor.</span></td>
                             <td><span class="loading">Lorem, ipsum.</span></td>
                             <td><span class="loading">Lorem, ipsum.</span></td>
+                            <td><span class="loading">Lorem, ipsum.</span></td>
                             <td><span class="loading">Lorem ipsum dolor sit amet, consectetur</span></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td><span class="loading">12</span></td>
                             <td><span class="loading">Lorem, ipsum dolor.</span></td>
+                            <td><span class="loading">Lorem, ipsum.</span></td>
                             <td><span class="loading">Lorem, ipsum.</span></td>
                             <td><span class="loading">Lorem, ipsum.</span></td>
                             <td><span class="loading">Lorem ipsum dolor sit amet, consectetur</span></td>
@@ -57,7 +60,10 @@
             </div>
             <div class="modal-body">
                 <p>Nama</p>
-                <input type="text" id="nama" class="form-control">
+                <input type="text" id="nama" class="form-control" autocomplete="off">
+                <br>
+                <p>Akses Username</p>
+                <input type="text" id="username" class="form-control" autocomplete="off">
                 <br>
                 <p>Jenis Kelamin</p>
                 <select class="form-control" id="jenis_kelamin">
