@@ -59,9 +59,7 @@
                                 @endif
                             </a>
                             <ul class="dropdown-menu">
-                                @if (Auth::user()->role == "karyawan")
-                                    <li><a href="#" data-toggle="modal" data-target="#modalChangePassword"><i class="fal fa-cog"></i> <span>Ganti Password</span></a></li>
-                                @endif
+                                <li><a href="#" data-toggle="modal" data-target="#modalChangePassword"><i class="fal fa-cog"></i> <span>Ganti Password</span></a></li>
                                 <li><a href="/logout"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
                             </ul>
                         </li>
@@ -107,33 +105,31 @@
             </div>
         </div>
 
-        @if (Auth::user()->role == "karyawan")
-            <div class="modal fade" id="modalChangePassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Ganti Password</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Password lama</p>
-                            <input type="password" id="old-pass" class="form-control">
-                            <br>
-                            <p>Password baru</p>
-                            <input type="password" id="new-pass" class="form-control">
-                            <br>
-                            <p>Konfirmasi password</p>
-                            <input type="password" id="confirm-pass" class="form-control">
-                            <br>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="btn-change-password">Submit</button>
-                        </div>
+        <div class="modal fade" id="modalChangePassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Ganti Password</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Password lama</p>
+                        <input type="password" id="old-pass" class="form-control">
+                        <br>
+                        <p>Password baru</p>
+                        <input type="password" id="new-pass" class="form-control">
+                        <br>
+                        <p>Konfirmasi password</p>
+                        <input type="password" id="confirm-pass" class="form-control">
+                        <br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btn-change-password">Submit</button>
                     </div>
                 </div>
             </div>
-        @endif
+        </div>
         
         <div class="clearfix"></div>
         <footer>
